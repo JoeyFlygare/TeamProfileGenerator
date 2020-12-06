@@ -10,10 +10,101 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamMembers = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+init();
+
+
+function init() {
+  createManager();
+
+  function createManager() {
+    inquirer.prompt(
+      [
+        {
+          type: 'input',
+          message: 'What is your managers name?',
+          name: 'name'
+        },
+        {
+          type: 'input',
+          message: 'What is your employee id?',
+          name: 'id'
+        },
+        {
+          type: 'input',
+          message: 'What is your office number?',
+          name: 'officeNumber'
+        },
+        {
+          type: 'input',
+          message: 'What is your email?',
+          name: 'email'
+        }
+      ]
+    ).then(answer => {
+      const manager = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
+      teamMembers.push(manager);
+      createTeam();
+    })
+  }
+
+  function createTeam() {
+    inquirer.prompt([
+      {
+        type: 'list',
+        message: 'What type of employee would you like to add?',
+        choices: ['Engineer', 'Intern', 'None'],
+        name: 'employChoices'
+      }
+    ]).then(answers => {
+      switch (answers.employChoices) {
+        case 'Engineer':
+          addEngineer();
+          break;
+        case 'Intern':
+          addIntern();
+          break;
+        case 'None':
+          buildTeam();
+          break;
+      }
+    })
+  }
+
+  function addEngineer() {
+    inquirer.prompt(
+      [
+        {
+          type: 'input',
+          message: 'What is your engineers name?',
+          name: 'name'
+        },
+        {
+          type: 'input',
+          message: 'What is your employee id?',
+          name: 'id'
+        },
+        {
+          type: 'input',
+          message: '',
+          name: 'email'
+        },
+        {
+          type: 'input',
+          message: '',
+          name: 'github'
+        }
+      ]).then(answer => {
+        const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
+        teamMembers.push(engineer);
+      })
+  }
+
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
