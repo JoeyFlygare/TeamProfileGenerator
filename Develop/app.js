@@ -31,17 +31,17 @@ function init() {
         },
         {
           type: 'input',
-          message: 'What is your employee id?',
+          message: 'What is their employee id?',
           name: 'id'
         },
         {
           type: 'input',
-          message: 'What is your office number?',
+          message: 'What is their office number?',
           name: 'officeNumber'
         },
         {
           type: 'input',
-          message: 'What is your email?',
+          message: 'What is the email for your manager?',
           name: 'email'
         }
       ]
@@ -90,20 +90,50 @@ function init() {
         },
         {
           type: 'input',
-          message: '',
+          message: 'What is the email for your new engineer?',
           name: 'email'
         },
         {
           type: 'input',
-          message: '',
+          message: 'What is your engineers github profile?',
           name: 'github'
         }
       ]).then(answer => {
         const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
         teamMembers.push(engineer);
+        createTeam();
       })
   }
 
+  function addIntern() {
+    inquirer.prompt(
+      [
+        {
+          type: 'input',
+          message: 'What is your interns name?',
+          name: 'name'
+        },
+        {
+          type: 'input',
+          message: 'What is your employee id?',
+          name: 'id'
+        },
+        {
+          type: 'input',
+          message: 'What is the email for your new intern?',
+          name: 'email'
+        },
+        {
+          type: 'input',
+          message: 'What school does you intern attend?',
+          name: 'school'
+        }
+      ]).then(answer => {
+        const intern = new Intern(answer.name, answer.id, answer.email, answer.school);
+        teamMembers.push(intern);
+        createTeam();
+      })
+  }
 }
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
